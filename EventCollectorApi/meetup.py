@@ -10,13 +10,19 @@ class MeetupQL():
         env_path = find_dotenv()
         load_dotenv(dotenv_path=env_path)
 
-        self.client_id = os.getenv('CLIENT_ID')
-        self.client_secret = os.getenv('CLIENT_SECRET')
-        self.base_api_url = os.getenv('BASE_API_URL')
-        self.redirect_uri = os.getenv('REDIRECT_URI')
-
-        self.auth_url = os.getenv('AUTH_URL')
-        self.access_url = os.getenv('ACCESS_URL')
+        #self.client_id = os.getenv('CLIENT_ID')
+        #self.client_secret = os.getenv('CLIENT_SECRET')
+        #self.base_api_url = os.getenv('BASE_API_URL')
+        #self.redirect_uri = os.getenv('REDIRECT_URI')
+#
+        #self.auth_url = os.getenv('AUTH_URL')
+        #self.access_url = os.getenv('ACCESS_URL')
+        self.client_id = '1fvo2c155aknlf8i37h7p6qeri'
+        self.client_secret = 'oqm61c2725jpfbo2i4s18t12c0'
+        self.base_api_url = 'https://api.meetup.com/gql'
+        self.redirect_uri = 'https://event-collector-api.herokuapp.com/'
+        self.auth_url = 'https://secure.meetup.com/oauth2/authorize'
+        self.access_url = 'https://secure.meetup.com/oauth2/access'
 
     def get_outh_token(self):
         '''
