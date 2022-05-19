@@ -56,6 +56,7 @@ pypi:
 
 run_event_api:
 	uvicorn EventCollectorApi.event_collector:app --reload
+#	uvicorn EventCollectorApi.event_collector:app
 
 # ----------------------------------
 #      GCP onfiguration
