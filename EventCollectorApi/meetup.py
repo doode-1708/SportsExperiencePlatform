@@ -107,7 +107,7 @@ class MeetupQL():
         return events
 
 def main():
-    meetup = Meetup()
+    meetup = MeetupQL()
     meetup.get_outh_token()
     events = meetup.get_events_by_city("fitness", 52.520008, 13.404954, 100)
     print(events)
