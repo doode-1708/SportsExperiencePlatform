@@ -32,3 +32,6 @@ termcolor
 # Web API
 fastapi
 uvicorn
+
+# postgresql
+psycopg2-binary
