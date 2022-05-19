@@ -29,7 +29,6 @@ joblib
 memoized-property
 termcolor
 python-dotenv
-os
 
 # Web API
 fastapi
