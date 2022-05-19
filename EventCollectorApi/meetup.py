@@ -45,7 +45,7 @@ class MeetupQL():
 
         access_token = access_response.json()
         auth_string = 'Bearer %s' % access_token
-        oauth_headers = {'Accept': 'application/json', 'Authorization': auth_string}
+        oauth_headers = {'Accept': 'application/json', 'Authorization': auth_string, "Accept-Language": "en-US"}
         self.oauth_headers = oauth_headers
 
     def query_meetup (self, query):
