@@ -1,9 +1,8 @@
 import os
-from EventCollectorApi.event_collector import query_meetup
 from dotenv import load_dotenv, find_dotenv
 import requests
 
-class Meetup():
+class MeetupQL():
     def __init__(self):
         '''
         read all needed configuration parameters for oauth process from .env
