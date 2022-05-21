@@ -9,6 +9,7 @@ numpy
 pandas
 scikit-learn
 joblib
+lightfm
 
 # tests/linter
 black
@@ -30,6 +31,10 @@ memoized-property
 termcolor
 python-dotenv
 
-# Web API
+# Web, API
 fastapi
 uvicorn
+streamlit
+
+# postgresql
+psycopg2-binary
