@@ -17,6 +17,7 @@ class MeetupQL():
 
         self.auth_url = os.getenv('AUTH_URL')
         self.access_url = os.getenv('ACCESS_URL')
+        self.default_pagination = 10
 
     def get_outh_token(self):
         '''
@@ -56,7 +57,7 @@ class MeetupQL():
 
         return res.json()
 
-    def get_events_by_city(self, activity, lat, lon, radius):
+    def get_events_by_city(self, activity, lat, lon, radius, **kwargs):
         '''
         collect the events from a city specifed by their lat and lon for a special activity
         '''
@@ -65,11 +66,19 @@ class MeetupQL():
         self.lon = lon
         self.radius = radius
 
+        pagination_string = ""
+        if 'PageCursor' in kwargs.keys():
+            page_cursor = kwargs['PageCursor']
+            pagination_string = f'first: {str(self.default_pagination)}, after: "{page_cursor}"'
+        else:
+            pagination_string = f"first: {str(self.default_pagination)}"
+
         query = '''
             query {
-                keywordSearch(filter: { query: "%s", lat: %s, lon: %s, radius: %s, source: EVENTS }) {
+                keywordSearch(input: {%s}, filter: { query: "%s", lat: %s, lon: %s, radius: %s, source: EVENTS }) {
                     count
                     pageInfo {
+                        hasNextPage
                         endCursor
                     }
                     edges {
@@ -83,6 +92,7 @@ class MeetupQL():
                             dateTime
                             timezone
                             eventUrl
+                            imageUrl
                             venue {
                                 name
                                 address
@@ -100,17 +110,39 @@ class MeetupQL():
                     }
                 }
             }
-        ''' % (self.activity, self.lat, self.lon, self.radius)
+        ''' % (pagination_string, self.activity, self.lat, self.lon, self.radius)
 
         events = self.query_meetup(query)
 
         return events
 
 def main():
+    result = []
+    hasNextPage = False
     meetup = MeetupQL()
     meetup.get_outh_token()
     events = meetup.get_events_by_city("fitness", 52.520008, 13.404954, 100)
-    print(events)
+    hasNextPage = events['data']['keywordSearch']['pageInfo']['hasNextPage']
+
+    for event in events['data']['keywordSearch']['edges']:
+        result.append(event['node']['result'])
+
+    while (hasNextPage):
+        events = meetup.get_events_by_city("fitness", 52.520008, 13.404954, 100, PageCursor=events['data']['keywordSearch']['pageInfo']['endCursor'])
+        for event in events['data']['keywordSearch']['edges']:
+            result.append(event['node']['result'])
+        hasNextPage = events['data']['keywordSearch']['pageInfo']['hasNextPage']
+
+    number_events = len(result)
+
+    event_info = {
+        'Info': {
+            'EventCount': number_events
+        }
+        , 'Data': result
+    }
+
+    print(event_info)
 
 if __name__ == '__main__':
     main()

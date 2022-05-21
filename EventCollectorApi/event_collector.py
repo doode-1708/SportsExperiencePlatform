@@ -24,6 +24,29 @@ def index():
 
 @app.get("/meetupql")
 def query_meetup(activity, lat, lon, radius):
+    result = []
+    hasNextPage = False
+    meetup = MeetupQL()
+    meetup.get_outh_token()
     events = meetup.get_events_by_city(activity, lat, lon, radius)
+    hasNextPage = events['data']['keywordSearch']['pageInfo']['hasNextPage']
 
-    return events['data']['keywordSearch']['edges']
+    for event in events['data']['keywordSearch']['edges']:
+        result.append(event['node']['result'])
+
+    while (hasNextPage):
+        events = meetup.get_events_by_city(activity, lat, lon, radius, PageCursor=events['data']['keywordSearch']['pageInfo']['endCursor'])
+        for event in events['data']['keywordSearch']['edges']:
+            result.append(event['node']['result'])
+        hasNextPage = events['data']['keywordSearch']['pageInfo']['hasNextPage']
+
+    number_events = len(result)
+
+    event_info = {
+        'Info': {
+            'EventCount': number_events
+        }
+        , 'Data': result
+    }
+
+    return event_info
