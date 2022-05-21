@@ -83,6 +83,7 @@ class MeetupQL():
                             dateTime
                             timezone
                             eventUrl
+                            imageUrl
                             venue {
                                 name
                                 address
