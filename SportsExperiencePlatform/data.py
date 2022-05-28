@@ -25,12 +25,14 @@ def connect_db():
 def get_data(conn):
     query_users = "select * from users"
     query_events = "select * from offers"
+    query_ahoy_events = "select * from ahoy_events"
     df_users = pd.read_sql(query_users, conn)
     df_events = pd.read_sql(query_events, conn)
+    df_ahoy_events = pd.read_sql(query_ahoy_events, conn)
 
     conn.close()
 
-    return (df_users, df_events)
+    return (df_users, df_events, df_ahoy_events)
 
 def main():
     conn = connect_db()
