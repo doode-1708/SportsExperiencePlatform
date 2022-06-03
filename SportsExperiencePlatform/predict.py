@@ -10,7 +10,6 @@ BUCKET_NAME = 'wagon-817-project-sports'
 STORAGE_LOCATION = 'models/recommender'
 
 def content_recommender(title, cosine_sim, df, title_to_index):
-    # user_id, location
     idx = title_to_index[title]
 
     sim_scores = list(enumerate(cosine_sim[idx].todense().tolist()[0]))
