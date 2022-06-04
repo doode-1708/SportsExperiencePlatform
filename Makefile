@@ -68,6 +68,9 @@ run_recommender_training:
 
 run_recommender_prediction:
 	uvicorn SportsExperiencePlatform.predict:app --reload
+
+run_recommender_dirty_prediction:
+	uvicorn SportsExperiencePlatform.dirty_predict:app --reload
 # ----------------------------------
 #      GCP onfiguration
 # ----------------------------------

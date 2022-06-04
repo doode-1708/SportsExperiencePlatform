@@ -1,8 +1,7 @@
 FROM python:3.8.12-buster
+COPY credentials.json /credentials.json
 COPY SportsExperiencePlatform /SportsExperiencePlatform
 COPY requirements.txt /requirements.txt
-COPY .env /.env
-COPY setup.sh /setup.sh
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-CMD  sh setup.sh && streamlit run SportsExperiencePlatform/data.py
+CMD  uvicorn SportsExperiencePlatform.dirty_predict:app --host 0.0.0.0 --port $PORT
