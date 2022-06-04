@@ -2,6 +2,9 @@ import psycopg2
 from dotenv import load_dotenv, find_dotenv
 import os
 import pandas as pd
+from scipy.sparse import load_npz, save_npz
+from SportsExperiencePlatform.params import BUCKET_NAME, STORAGE_LOCATION, MODEL_FILE_NAME, EVENTS_FILE_NAME
+from google.cloud import storage
 
 def connect_db():
     env_path = find_dotenv()
@@ -34,10 +37,41 @@ def get_data(conn):
 
     return (df_users, df_events, df_ahoy_events)
 
+def download_file_from_gs(filename):
+    download_file = None
+    client = storage.Client().bucket(BUCKET_NAME)
+
+    storage_location = f'{STORAGE_LOCATION}/{filename}'
+    blob = client.blob(storage_location)
+    blob.download_to_filename(filename)
+
+    if filename.split('.')[1] == 'npz':
+        download_file = load_npz(filename)
+    elif filename.split('.')[1] == 'csv':
+        download_file = pd.read_csv(filename)
+
+    return download_file
+
+def upload_file_to_gs(filename, **kwargs):
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(f'{STORAGE_LOCATION}/{filename}')
+
+    if 'model' in kwargs.keys():
+        save_npz(filename, kwargs['model'])
+
+    blob.upload_from_filename(filename)
+
 def main():
     conn = connect_db()
-    df_users, df_events = get_data(conn)
+    df_users, df_events, df_ahoy_events = get_data(conn)
     print(df_users.shape, df_events.shape)
+    model = download_file_from_gs(MODEL_FILE_NAME)
+    events_df = download_file_from_gs(EVENTS_FILE_NAME)
+    print(model.shape)
+    print(events_df.head())
+    upload_file_to_gs(EVENTS_FILE_NAME)
+    upload_file_to_gs(MODEL_FILE_NAME, model=model)
 
 if __name__ == '__main__':
     main()
