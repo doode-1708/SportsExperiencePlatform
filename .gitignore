@@ -5,6 +5,9 @@
 raw_data/
 *.csv
 **/__pycache__/
-.env
+.env*
 .vscode/targets.log
 .vscode/configurationCache.log
+credentials.json
+*.npz
+notebooks/*.npz

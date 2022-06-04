@@ -9,7 +9,6 @@ numpy
 pandas
 scikit-learn
 joblib
-lightfm
 nltk
 
 # tests/linter
@@ -31,11 +30,14 @@ joblib
 memoized-property
 termcolor
 python-dotenv
+spacy
+googletrans==4.0.0-rc1
 
 # Web, API
 fastapi
 uvicorn
 streamlit
+bs4
 
 # postgresql
 psycopg2-binary
