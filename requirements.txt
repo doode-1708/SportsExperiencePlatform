@@ -32,6 +32,7 @@ termcolor
 python-dotenv
 spacy
 googletrans==4.0.0-rc1
+langdetect
 
 # Web, API
 fastapi

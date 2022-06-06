@@ -11,3 +11,4 @@ raw_data/
 credentials.json
 *.npz
 notebooks/*.npz
+*.json
