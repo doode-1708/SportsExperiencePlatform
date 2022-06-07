@@ -36,8 +36,8 @@ def get_data(conn):
 
 def main():
     conn = connect_db()
-    df_users, df_events = get_data(conn)
-    print(df_users.shape, df_events.shape)
+    df_users, df_events, df_ahoy_events = get_data(conn)
+    print(df_users.shape, df_events.shape, df_ahoy_events.shape)
 
 if __name__ == '__main__':
     main()
