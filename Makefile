@@ -58,6 +58,11 @@ run_event_api:
 	uvicorn EventCollectorApi.event_collector:app --reload
 #	uvicorn EventCollectorApi.event_collector:app
 
+run_api:
+#	uvicorn SportsExperiencePlatform.predict:app --reload
+	uvicorn api.fast:app --reload
+
+
 run_recommender_training:
 	python -m SportsExperiencePlatform.recommender
 
