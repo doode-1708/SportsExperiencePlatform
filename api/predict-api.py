@@ -32,7 +32,7 @@ def index():
 
 @app.get('/recommender')
 def predict(user_id):
-    return content_recommender(user_id, cosine_sim = model, df)
+    return content_recommender(user_id, model, df)
 
 
 
